@@ -7,17 +7,6 @@ pipeline {
     //
     IMAGE = "${JOB_BASE_NAME}:${BRANCH_NAME}-${BUILD_NUMBER}"
     //
-    // shouldn't need the registry variable unless you're not using dockerhub
-    // registry = 'docker.io'
-    //
-    // change this HUB_CREDENTIAL to the ID of whatever jenkins credential has your registry user/pass
-    // first let's set the docker hub credential and extract user/pass
-    // we'll use the USR part for figuring out where are repository is
-    // HUB_CREDENTIAL = "docker-hub"
-    // use credentials to set DOCKER_HUB_USR and DOCKER_HUB_PSW
-    // DOCKER_HUB = credentials("${HUB_CREDENTIAL}")
-    // change repository to your DockerID
-    // REPOSITORY = "${DOCKER_HUB_USR}/jenkins-syft-demo"
   } // end environment
   
   agent any
@@ -50,51 +39,41 @@ pipeline {
     
     stage('Build image and tag with build number') {
       steps {
-        sh """
+        sh '''
           docker build --network=host -t ${IMAGE} .
-        """  
-        //
-        // if you want to use the docker plugin, something like this:  
-        // script {
-        //   def dockerImage = docker.build ("${IMAGE}")
-        // } // end script
-        //
+        '''  
       } // end steps
     } // end stage "build image and tag w build number"
     
     stage('Analyze with syft') {
       steps {
-        // run syft
-        sh """
+        // run syft, output in json format, save to file "sbom.json"
+        sh '''
           syft --output json --file sbom.json ${IMAGE} 
-         """
+         '''
       } // end steps
     } // end stage "analyze with syft"
     
     stage('Evaluate with Grype') {
       steps {
-        sh """
+        // run grype, read sbom from file "sbom.json", output in table format. 
+        // we will pipe output to "tee" so we can save the report AND see it in the logs
+        // we could instead just use "--file" option for grype if we just want to silenty archive results
+        sh '''
           grype --output table sbom:sbom.json | tee grype.txt
-          # we could just use --file option for grype but I'm piping to tee here so we see the result in the logs
-        """
-        //script {
-        //  docker.withRegistry('', HUB_CREDENTIAL) {
-        //    dockerImage.push('prod') 
-        //    // dockerImage.push takes the argument as a new tag for the image before pushing
-        //  }
-        //} // end script
+        ''';
       } // end steps
     } // end stage "retag as prod"
 
-    stage('Clean up') {
-      // delete the images locally
-      steps {
-        sh """
-          docker rmi ${IMAGE}
-        """
-      } // end steps
-    } // end stage "clean up"
-
-    
   } // end stages
+
+  post {
+    always {
+      // archive the sbom
+      archiveArtifacts artifacts: 'sbom.json, grype.txt'
+      // delete the images locally
+      sh 'docker image rm ${IMAGE} || failure=1'
+    } // end always
+  } //end post
+
 } //end pipeline
