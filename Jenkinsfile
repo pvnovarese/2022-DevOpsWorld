@@ -36,11 +36,11 @@ pipeline {
           ### (correcting this is a bigger problem outside the scope of this workshop)
           which docker   
           ### make sure syft is available, and if not, download and install 
-          if [ ! -x "/usr/local/bin/syft" ]; then
+          if [ ! $(which syft) ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ${HOME}/.local/bin
-          fi
+         fi
           ### same for grype
-          if [ ! -x "/usr/local/bin/grype" ]; then
+          if [ ! $(which grype) ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
           fi
           PATH=${HOME}/.local/bin:${PATH}
