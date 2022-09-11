@@ -32,10 +32,9 @@ pipeline {
     stage('Install and Verify Tools') {
       steps {
         sh """
-          ### if docker or jq aren't available, just bail 
+          ### if docker isn't available, just bail 
           ### (correcting this is a bigger problem outside the scope of this workshop)
           which docker   
-          which jq
           ### make sure syft is available, and if not, download and install 
           if [ ! -x "/usr/local/bin/syft" ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ${HOME}/.local/bin
@@ -67,7 +66,7 @@ pipeline {
       steps {
         // run syft
         sh """
-          syft -output json --file sbom.json ${IMAGE} 
+          syft --output json --file sbom.json ${IMAGE} 
          """
       } // end steps
     } // end stage "analyze with syft"
