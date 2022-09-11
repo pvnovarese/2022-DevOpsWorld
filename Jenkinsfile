@@ -58,7 +58,7 @@ pipeline {
           //
           // if you want to use the docker plugin, something like this:  
         script {
-          dockerImage = docker.build IMAGE
+          def dockerImage = docker.build ("${IMAGE}")
         } // end script
           //
       } // end steps
