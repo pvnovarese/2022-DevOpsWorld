@@ -31,7 +31,7 @@ pipeline {
 
     stage('Install and Verify Tools') {
       steps {
-        sh """
+        sh '''
           ### if docker isn't available, just bail 
           ### (correcting this is a bigger problem outside the scope of this workshop)
           which docker   
@@ -44,7 +44,7 @@ pipeline {
             curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
           fi
           PATH=${HOME}/.local/bin:${PATH}
-        """
+        '''
       } // end steps
     } // end stage "install and verify tools 
     
