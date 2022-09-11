@@ -69,10 +69,10 @@ pipeline {
 
   post {
     always {
-      // archive the sbom
+      // archive the sbom and vuln report
       archiveArtifacts artifacts: 'sbom.json, grype.txt'
-      // delete the images locally
-      sh 'docker image rm ${IMAGE} || failure=1'
+      // delete the images locally (optional, if you do this you'll lose a lot of cache speed gains when building)
+      // sh 'docker image rm ${IMAGE} || failure=1'
     } // end always
   } //end post
 
