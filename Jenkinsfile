@@ -5,7 +5,7 @@ pipeline {
     // this should be fairly unique, it doesn't need to be perfect
     // since we're not going to push this anywhere
     //
-    IMAGE = "${JOB_BASE_NAME}:${BRANCH_NAME}-${BUILD_NUMBER}"
+    IMAGE = "${JOB_BASE_NAME}:${GIT_BRANCH.split("/")[1]}-${BUILD_NUMBER}"
     //
   } // end environment
   
