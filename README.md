@@ -42,6 +42,7 @@ Now head to http://localhost:8080/ (assuming you're deploying on your local mach
 - Instance Configuration - Jenkins URL should be "http://localhost:8080/"
 - "Save and Finish"
 - "Restart" (if the system seems to get stuck, refresh your browser after a minute or so.
+- (need to also install "Docker Pipeline" plugin)
 
 Once Jenkins is all set up, we'll need to install jq, syft, and grype in the jenkins container:
 

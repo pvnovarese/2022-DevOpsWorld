@@ -2,9 +2,7 @@ version: '3'
 
 volumes:
   jenkins-data-volume:
-    external: false
   jenkins-docker-certs-volume:
-    external: false
 
 networks:
   jenkins-net:
@@ -21,8 +19,8 @@ services:
         aliases:
           - docker
     volumes: 
-      - jenkins-data-volume/:/var/jenkins_home
-      - jenkins-docker-certs-volume/:/certs/client
+      - jenkins-data-volume:/var/jenkins_home
+      - jenkins-docker-certs-volume:/certs/client
     environment:
       - DOCKER_TLS_CERTDIR=/certs
     healthcheck:
@@ -38,8 +36,8 @@ services:
     networks:
       - jenkins-net
     volumes:
-      - jenkins-data-volume/:/var/jenkins_home
-      - jenkins-docker-certs-volume/:/certs/client
+      - jenkins-data-volume:/var/jenkins_home
+      - jenkins-docker-certs-volume:/certs/client
     healthcheck:
       test: ["CMD", "wget", "--spider", "http://127.0.0.1:8080/login"]
     environment:

@@ -39,28 +39,27 @@ pipeline {
           ### make sure syft is available, and if not, download and install 
           if [ ! -x "/usr/local/bin/syft" ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ${HOME}/.local/bin
-            PATH=${HOME}/.local/bin:${PATH}
           fi
           ### same for grype
           if [ ! -x "/usr/local/bin/grype" ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
-            PATH=${HOME}/.local/bin:${PATH}
           fi
+          PATH=${HOME}/.local/bin:${PATH}
         """
       } // end steps
     } // end stage "install and verify tools 
     
     stage('Build image and tag with build number') {
       steps {
-        //sh """
-        //  docker build -t ${IMAGE} .
-        //"""  
-          //
-          // if you want to use the docker plugin, something like this:  
-        script {
-          def dockerImage = docker.build ("${IMAGE}")
-        } // end script
-          //
+        sh """
+          docker build --network=host -t ${IMAGE} .
+        """  
+        //
+        // if you want to use the docker plugin, something like this:  
+        // script {
+        //   def dockerImage = docker.build ("${IMAGE}")
+        // } // end script
+        //
       } // end steps
     } // end stage "build image and tag w build number"
     
