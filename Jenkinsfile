@@ -52,14 +52,14 @@ pipeline {
     
     stage('Build image and tag with build number') {
       steps {
-        sh """
-          docker build -t ${IMAGE} .
-        """  
+        //sh """
+        //  docker build -t ${IMAGE} .
+        //"""  
           //
           // if you want to use the docker plugin, something like this:  
-          //  script {
-          //    dockerImage = docker.build REPOSITORY + ":${BUILD_NUMBER}"
-          //  } // end script
+        script {
+          dockerImage = docker.build IMAGE
+        } // end script
           //
       } // end steps
     } // end stage "build image and tag w build number"
@@ -68,7 +68,7 @@ pipeline {
       steps {
         // run syft
         sh """
-          syft -output json --file sbom.json {IMAGE} 
+          syft -output json --file sbom.json ${IMAGE} 
          """
       } // end steps
     } // end stage "analyze with syft"
