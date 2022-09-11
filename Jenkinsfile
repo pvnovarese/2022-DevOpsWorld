@@ -38,7 +38,7 @@ pipeline {
           ### make sure syft is available, and if not, download and install 
           if [ ! $(which syft) ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ${HOME}/.local/bin
-         fi
+          fi
           ### same for grype
           if [ ! $(which grype) ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
