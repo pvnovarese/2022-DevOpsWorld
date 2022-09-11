@@ -54,7 +54,7 @@ pipeline {
       } // end steps
     } // end stage "analyze with syft"
     
-    stage('Evaluate with Grype') {
+    stage('Evaluate with grype') {
       steps {
         // run grype, read sbom from file "sbom.json", output in table format. 
         // we will pipe output to "tee" so we can save the report AND see it in the logs
