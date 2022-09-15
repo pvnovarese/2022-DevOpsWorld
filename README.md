@@ -1,6 +1,16 @@
 # 2022-DevOpsWorld
 
-## Part 1: Jenkins Setup
+## Prerequisites
+
+For maximum benefit from this workshop, you'll need the following:
+
+* Docker Desktop (or some other container runtime) installed on your laptop (https://www.docker.com/products/docker-desktop/) 
+* A github account
+* (optional) a Docker Hub ID (https://hub.docker.com/signup) 
+
+It is also possible to instead run all the labs on a remote linux host such as an AWS EC2 instance. If you want to do this, we would recommend at least a T2.medium (EC2 instances will not be provided as part of the workshop).
+
+## Lab 0: Jenkins Setup
 
 We're going to run jenkins in a container to make this fairly self-contained and easily disposable.  This command will run jenkins and bind to the host's docker sock (if you don't know what that means, don't worry about it, it's not important).
 
@@ -43,6 +53,9 @@ Now head to http://localhost:8080/ (assuming you're deploying on your local mach
 - "Save and Finish"
 - "Restart" (if the system seems to get stuck, refresh your browser after a minute or so.
 
+
+## Lab 1:
+
 Once Jenkins is all set up, we'll need to install jq, syft, and grype in the jenkins container:
 
 ```
@@ -53,6 +66,6 @@ Once Jenkins is all set up, we'll need to install jq, syft, and grype in the jen
 
 A few additional items we might use in some of the labs:
 - Create a credential so we can push images into Docker Hub:
-	- go to manage jenkins -> manage credentials
+	- go to "manage jenkins" -> "manage credentials" (http://localhost:8080/credentials/)
 	- click “global” and “add credentials”
 	- Use your Docker Hub username and password (get an access token from Docker Hub if you are using multifactor authentication), and set the ID of the credential to “docker-hub”.
