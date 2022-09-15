@@ -53,9 +53,6 @@ Now head to http://localhost:8080/ (assuming you're deploying on your local mach
 - "Save and Finish"
 - "Restart" (if the system seems to get stuck, refresh your browser after a minute or so.
 
-
-## Lab 1:
-
 Once Jenkins is all set up, we'll need to install jq, syft, and grype in the jenkins container:
 
 ```
@@ -69,3 +66,19 @@ A few additional items we might use in some of the labs:
 	- go to "manage jenkins" -> "manage credentials" (http://localhost:8080/credentials/)
 	- click “global” and “add credentials”
 	- Use your Docker Hub username and password (get an access token from Docker Hub if you are using multifactor authentication), and set the ID of the credential to “docker-hub”.
+
+## Lab X: package blocks
+
+* install sudo in Dockerfile (apk add sudo)
+* test for sudo in package list and break pipeline if detected
+* hard mode: check for license on particular package type
+
+eg `syft -o json <image> | jq '.artifacts[] | select (.type == "gem") | .name, .type, .licenses'`
+
+## Lab Y: vuln check
+
+* introduce grype
+* break pipelines if critical vulns are found
+* bonus: check the difference between "grype <image>" and "grype <sbom>"
+
+## Lab Z: zero day response
