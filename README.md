@@ -4,11 +4,15 @@
 
 For maximum benefit from this workshop, you'll need the following:
 
-* Docker Desktop (or some other container runtime) installed on your laptop (https://www.docker.com/products/docker-desktop/) 
-* A github account
-* (optional) a Docker Hub ID (https://hub.docker.com/signup) 
+* a github account
+* a web browser
+* Syft installed on your laptop - https://github.com/anchore/syft
+* Grype installed on your laptop - https://github.com/anchore/grype
 
-It is also possible to instead run all the labs on a remote linux host such as an AWS EC2 instance. If you want to do this, we would recommend at least a T2.medium (EC2 instances will not be provided as part of the workshop).
+Optional:
+
+* Docker Desktop (or some other container runtime) installed on your laptop - https://www.docker.com/products/docker-desktop/
+* A Docker Hub ID - https://hub.docker.com/signup
 
 ## Lab 0: Jenkins Setup
 
