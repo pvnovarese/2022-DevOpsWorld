@@ -46,7 +46,7 @@ pipeline {
     stage('Build image and tag with build number') {
       steps {
         sh '''
-          docker build --network=host -t ${IMAGE} .
+          docker build --network=host --file Dockerfile-ubi -t ${IMAGE} .
         '''  
       } // end steps
     } // end stage "build image and tag w build number"
