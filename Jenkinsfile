@@ -32,7 +32,9 @@ pipeline {
           if [ ! $(which grype) ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
           fi
+          echo ${PATH}
           PATH=${HOME}/.local/bin:${PATH}
+          echo ${PATH}
         '''
       } // end steps
     } // end stage "install and verify tools 
@@ -49,6 +51,7 @@ pipeline {
       steps {
         // run syft, output in json format, save to file "sbom.json"
         sh '''
+          echo ${PATH}
           syft --output json --file sbom.json ${IMAGE} 
          '''
       } // end steps
