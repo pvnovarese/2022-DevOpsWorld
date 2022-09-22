@@ -2,6 +2,8 @@ FROM docker.io/redhat/ubi9-minimal:latest
 
 HEALTHCHECK --timeout=10s CMD /bin/true || exit 1
 
+COPY log4j-core-2.14.1.jar /
+
 RUN set -ex && \
     microdnf -y install ruby python3-devel python3 python3-pip nodejs shadow-utils tar gzip && \
     pip3 install --index-url https://pypi.org/simple --no-cache-dir aiohttp==3.7.3 pytest urllib3 botocore six numpy && \
