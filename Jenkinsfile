@@ -41,7 +41,7 @@ pipeline {
           which grype
         '''
       } // end steps
-    } // end stage "install and verify tools 
+    } // end stage "install and verify tools"
     
     stage('Build image and tag with build number') {
       steps {
@@ -63,24 +63,38 @@ pipeline {
       } // end steps
     } // end stage "analyze with syft"
     
-    stage('Evaluate with grype') {
+    stage('Evaluate with grype from image') {
+      steps {
+        // run grype against image directly, output in table format. 
+        // (we'll compare timing with running grype against the sbom)
+        // we will pipe output to "tee" so we can save the report AND see it in the logs
+        // we could instead just use "--file" option for grype if we just want to silenty archive results
+        sh '''
+          PATH=${HOME}/.local/bin:${PATH}
+          grype --output table sbom:sbom.json | tee grype-image.txt
+        ''';
+      } // end steps
+    } // end stage "grype/image"
+
+    
+    stage('Evaluate with grype from sbom') {
       steps {
         // run grype, read sbom from file "sbom.json", output in table format. 
         // we will pipe output to "tee" so we can save the report AND see it in the logs
         // we could instead just use "--file" option for grype if we just want to silenty archive results
         sh '''
           PATH=${HOME}/.local/bin:${PATH}
-          grype --output table sbom:sbom.json | tee grype.txt
+          grype --output table sbom:sbom.json | tee grype-sbom.txt
         ''';
       } // end steps
-    } // end stage "retag as prod"
+    } // end stage "grype/sbom"
 
   } // end stages
 
   post {
     always {
       // archive the sbom and vuln report
-      archiveArtifacts artifacts: 'sbom.json, grype.txt'
+      archiveArtifacts artifacts: 'sbom.json, grype*.txt'
       // delete the images locally (optional, if you do this you'll lose a lot of cache speed gains when building)
       // sh 'docker image rm ${IMAGE} || failure=1'
     } // end always
