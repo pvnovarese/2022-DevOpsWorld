@@ -32,9 +32,11 @@ pipeline {
           if [ ! $(which grype) ]; then
             curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
           fi
-          echo ${PATH}
           PATH=${HOME}/.local/bin:${PATH}
-          echo ${PATH}
+          # setting PATH here isn't really necessary since we're just going to exit this sh step anyway but it's
+          # a good reminder that it needs to be done when we actually need syft and grype
+          #
+          # also, we can go ahead and sanity check that the tools were installed correctly:
           which syft
           which grype
         '''
@@ -52,8 +54,10 @@ pipeline {
     stage('Analyze with syft') {
       steps {
         // run syft, output in json format, save to file "sbom.json"
+        // note: setting PATH here like this will work regardless of whether syft/grype 
+        // were installed before we ran this pipeline or during the pipeline execution
         sh '''
-          echo ${PATH}
+          PATH=${HOME}/.local/bin:${PATH}
           syft --output json --file sbom.json ${IMAGE} 
          '''
       } // end steps
@@ -65,6 +69,7 @@ pipeline {
         // we will pipe output to "tee" so we can save the report AND see it in the logs
         // we could instead just use "--file" option for grype if we just want to silenty archive results
         sh '''
+          PATH=${HOME}/.local/bin:${PATH}
           grype --output table sbom:sbom.json | tee grype.txt
         ''';
       } // end steps
