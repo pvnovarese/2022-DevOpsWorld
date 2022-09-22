@@ -5,7 +5,7 @@ LABEL name="2022-devopsworld"
 LABEL org.opencontainers.image.title="2022-devopsworld"
 LABEL org.opencontainers.image.description="Simple image to demonstrate various SBOM aspects."
 
-COPY log4j-core-2.14.1.jar /
+COPY four.jar h2-2.0.204.jar h2-2.0.206.jar log4j-core-2.14.1.jar log4j-core-2.15.0.jar /
 
 RUN set -ex && \
     apk add --no-cache ruby curl jq && \
