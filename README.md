@@ -13,8 +13,32 @@ Optional:
 
 * Docker Desktop (or some other container runtime) installed on your laptop - https://www.docker.com/products/docker-desktop/
 * A Docker Hub ID - https://hub.docker.com/signup
+* jq installed locally
+* a decent terminal/command-line ssh client (e.g. putty for windows, Mac has this built in)
 
-## Lab 0: Jenkins Setup
+
+## Lab Alpha: getting to know SBOM
+* syft <something>
+* syft -o json something
+* syft > grype 
+* cf. grype alone for timings
+
+## Lab 0: Test Jenkins Functionality
+
+* Fork this repo
+* Start with minimal Jenkinsfile
+* verify we can build an image
+
+## Lab 1: Generate SBOM 
+
+* add syft to the jenkinsfile
+* generate sbom after image build
+* archive the SBOM
+
+## Lab 2: Make Decisions from the SBOM
+
+
+## Lab 999: Jenkins Setup
 
 We're going to run jenkins in a container to make this fairly self-contained and easily disposable.  This command will run jenkins and bind to the host's docker sock (if you don't know what that means, don't worry about it, it's not important).
 
