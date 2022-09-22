@@ -35,6 +35,8 @@ pipeline {
           echo ${PATH}
           PATH=${HOME}/.local/bin:${PATH}
           echo ${PATH}
+          which syft
+          which grype
         '''
       } // end steps
     } // end stage "install and verify tools 
