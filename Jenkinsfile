@@ -63,21 +63,7 @@ pipeline {
       } // end steps
     } // end stage "analyze with syft"
     
-    stage('Evaluate with grype from image') {
-      steps {
-        // run grype against image directly, output in table format. 
-        // (we'll compare timing with running grype against the sbom)
-        // we will pipe output to "tee" so we can save the report AND see it in the logs
-        // we could instead just use "--file" option for grype if we just want to silenty archive results
-        sh '''
-          PATH=${HOME}/.local/bin:${PATH}
-          grype --output table sbom:sbom.json | tee grype-image.txt
-        ''';
-      } // end steps
-    } // end stage "grype/image"
-
-    
-    stage('Evaluate with grype from sbom') {
+    stage('Evaluate SBOM with grype') {
       steps {
         // run grype, read sbom from file "sbom.json", output in table format. 
         // we will pipe output to "tee" so we can save the report AND see it in the logs
@@ -87,7 +73,7 @@ pipeline {
           grype --output table sbom:sbom.json | tee grype-sbom.txt
         ''';
       } // end steps
-    } // end stage "grype/sbom"
+    } // end stage "Evaluate with grype"
 
   } // end stages
 
