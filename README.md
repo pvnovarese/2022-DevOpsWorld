@@ -23,6 +23,32 @@ Optional:
 * syft > grype 
 * cf. grype alone for timings
 
+## Lab Beta: drift detection
+
+```
+➜  ~ syft -o json --file=syft-56-sbom.json anchore/syft:v0.56.0
+ ✔ Loaded image
+ ✔ Parsed image
+ ✔ Cataloged packages      [216 packages]
+ 
+ ➜  ~ syft -o json --file=syft-40-sbom.json anchore/syft:v0.40.0
+ ✔ Loaded image
+ ✔ Parsed image
+ ✔ Cataloged packages      [241 packages]
+```
+
+## Lab Gamma: Vulnerability Matching
+
+``` 
+➜  ~ grype sbom:syft-56-sbom.json
+ ✔ Scanned image           [2 vulnerabilities]
+
+NAME                        INSTALLED  FIXED-IN  TYPE       VULNERABILITY   SEVERITY
+google.golang.org/protobuf  v1.28.1              go-module  CVE-2015-5237   High
+google.golang.org/protobuf  v1.28.1              go-module  CVE-2021-22570  Medium
+```
+
+
 ## Lab 0: Test Jenkins Functionality
 
 * Fork this repo
