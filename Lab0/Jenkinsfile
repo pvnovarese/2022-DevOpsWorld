@@ -8,8 +8,7 @@ pipeline {
     // this should be fairly unique, it doesn't need to be perfect
     // since we're not going to push this anywhere
     //
-    IMAGE_NAME = "${JOB_BASE_NAME}:${GIT_BRANCH.split("/")[1]}-${BUILD_NUMBER}"
-    IMAGE=params.IMAGE_NAME.toLowerCase()
+    IMAGE = "${JOB_BASE_NAME}:${GIT_BRANCH.split("/")[1]}-${BUILD_NUMBER}"
 
     //
   } // end environment
@@ -26,6 +25,8 @@ pipeline {
     stage('Install and Verify Tools') {
       steps {
         sh '''
+          echo ${IMAGE}
+          IMAGE=${IMAGE.toLowerCase()}
           ### if docker isn't available, just bail 
           ### (correcting this is a bigger problem outside the scope of this workshop)
           which docker   
