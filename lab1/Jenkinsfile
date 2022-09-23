@@ -87,7 +87,7 @@ pipeline {
   post {
     always {
       // archive the sbom 
-      archiveArtifacts artifacts: '${env.SBOM_NAME}*'
+      archiveArtifacts artifacts: '*sbom*'
       // delete the images locally (optional, if you do this you'll lose a lot of cache speed gains when building)
       // sh 'docker image rm ${IMAGE} || failure=1'
     } // end always
