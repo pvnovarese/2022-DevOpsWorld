@@ -9,9 +9,6 @@ pipeline {
     // since we're not going to push this anywhere
     //
     IMAGE = "${JOB_BASE_NAME}:${BUILD_NUMBER}"
-    SBOM_NAME = "${JOB_BASE_NAME}-${BUILD_NUMBER}-sbom"
-
-    //
   } // end environment
   
   agent any
@@ -71,7 +68,9 @@ pipeline {
         sh '''
           # first, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
           rm -f *sbom*
+          # set the PATH just to be sure
           PATH=${HOME}/.local/bin:${PATH}
+          # run syft and output both json and text files.
           syft --output json=${IMAGE}-sbom.json --output table=${IMAGE}-sbom.txt ${IMAGE} 
         '''
       } // end steps
@@ -79,6 +78,7 @@ pipeline {
 
     stage('Archive SBOMs') {
       steps {
+        // archive anything with "sbom" in the name
         archiveArtifacts artifacts: '*sbom*'
         // and, just to be sure, let's clean up after ourselves, 
         // remove any sboms we've created from the workspace
