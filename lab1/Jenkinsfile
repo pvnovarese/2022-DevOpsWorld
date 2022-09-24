@@ -8,7 +8,7 @@ pipeline {
     // this should be fairly unique, it doesn't need to be perfect
     // since we're not going to push this anywhere
     //
-    IMAGE = "${JOB_BASE_NAME}:${GIT_BRANCH.split("/")[1]}-${BUILD_NUMBER}"
+    IMAGE = "${JOB_BASE_NAME}:${BUILD_NUMBER}"
     SBOM_NAME = "${JOB_BASE_NAME}-${BUILD_NUMBER}-sbom"
 
     //
@@ -72,7 +72,7 @@ pipeline {
           # first, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
           rm -f *sbom*
           PATH=${HOME}/.local/bin:${PATH}
-          syft --output json=${SBOM_NAME}.json --output table=${SBOM_NAME}.txt ${IMAGE} 
+          syft --output json=${IMAGE}.json --output table=${IMAGE}.txt ${IMAGE} 
         '''
       } // end steps
     } // end stage "analyze with syft"
