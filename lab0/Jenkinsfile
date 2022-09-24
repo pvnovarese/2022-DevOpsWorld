@@ -48,7 +48,7 @@ pipeline {
     stage('Build image and tag with build number') {
       steps {
         sh '''
-          docker build --network=host --file lab0/Dockerfile -t ${IMAGE} .
+          docker build --network=host -t ${IMAGE} .
         '''  
       } // end steps
     } // end stage "build image and tag w build number"
