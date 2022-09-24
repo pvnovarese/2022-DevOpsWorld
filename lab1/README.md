@@ -40,3 +40,5 @@ The Dockerfile/Jenkinsfile in this directory are just for reference, and for rec
 ```   
 
 * (optional) Edit the Dockerfile (in the root of the repository) and change the label from "lab0" to "lab1" (this really isn't that big of a deal)
+* From the Dashboard of your Jenkins instance, create a new item just like in Lab 0, only name it... "lab1".  Everything else should be the same.
+* When your build completes, 
