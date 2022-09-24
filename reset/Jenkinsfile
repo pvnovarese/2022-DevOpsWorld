@@ -1,0 +1,19 @@
+// This pipeline will clean up any and ALL images in the local build node's image cache.
+// I wouldn't use this for general purposes, it's really only valid for this lab
+
+pipeline {
+    
+  agent any
+  stages {
+    
+    stage('Delete Images') {
+      steps {
+        
+        sh 'for ID in $(docker image ls -q); do docker image rm --force $ID; done'
+        
+      } // end steps
+    } // end stage "Delete Images"
+
+  } // end stages
+
+} //end pipeline
