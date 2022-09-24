@@ -72,7 +72,7 @@ pipeline {
           # first, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
           rm -f *sbom*
           PATH=${HOME}/.local/bin:${PATH}
-          syft --output json=${IMAGE}.json --output table=${IMAGE}.txt ${IMAGE} 
+          syft --output json=${IMAGE}-sbom.json --output table=${IMAGE}-sbom.txt ${IMAGE} 
         '''
       } // end steps
     } // end stage "analyze with syft"
