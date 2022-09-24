@@ -70,7 +70,7 @@ pipeline {
         // were installed before we ran this pipeline or during the pipeline execution
         sh '''
           # first, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
-          rm *sbom*
+          rm -f *sbom*
           PATH=${HOME}/.local/bin:${PATH}
           syft --output json=${SBOM_NAME}.json --output table=${SBOM_NAME}.txt ${IMAGE} 
         '''
