@@ -5,7 +5,28 @@ The goal of this lab is to build on the previous lab and add a quick SBOM creati
 The Dockerfile/Jenkinsfile in this directory are just for reference, and for recovery purposes if you make any mistakes during the lab.
 
 
-* Edit the Jenkinsfile.  After the "build image" stage, we'll want to add a new stage:
+* Edit the Jenkinsfile.  There are three changes to make for this lab.
+
+1) In the "Install and Verify Tools" stage, we want to run a check to see if our SBOM tools are available, and if not, install them.  Right after the `which docker` check, inside the `sh` script, let's add these additional commands:
+```
+          ### make sure syft is available, and if not, download and install 
+          if [ ! $(which syft) ]; then
+            curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ${HOME}/.local/bin
+          fi
+          ### same for grype
+          if [ ! $(which grype) ]; then
+            curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
+          fi
+          PATH=${HOME}/.local/bin:${PATH}
+          # setting PATH here isn't really necessary since we're just going to exit this sh step anyway but it's
+          # a good reminder that it needs to be done when we actually need syft and grype
+          #
+          # also, we can go ahead and sanity check that the tools were installed correctly:
+          which syft
+          which grype
+```
+
+2) After the "build image" stage, we'll want to add a new stage:
 
 ```
     stage('Analyze with syft') {
@@ -26,7 +47,7 @@ The Dockerfile/Jenkinsfile in this directory are just for reference, and for rec
     } // end stage "analyze with syft"
 ```
 
-* We also want to add a stage to archive the sboms so we can find them later:
+3) We also want to add a stage to archive the sboms so we can find them later:
 ```
     stage('Archive SBOMs') {
       steps {
@@ -41,4 +62,6 @@ The Dockerfile/Jenkinsfile in this directory are just for reference, and for rec
 
 * (optional) Edit the Dockerfile (in the root of the repository) and change the label from "lab0" to "lab1" (this really isn't that big of a deal)
 * From the Dashboard of your Jenkins instance, create a new item just like in Lab 0, only name it... "lab1".  Everything else should be the same.
-* When your build completes, 
+* When your build completes, you should see the SBOMs listed under "Last Successful Artifacts" (you may need to refresh the page after the build is successful to see this).  You can also drill down into any particular build to see the artifacts from that build.
+
+
