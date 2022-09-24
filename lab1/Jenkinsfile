@@ -73,7 +73,8 @@ pipeline {
           rm *sbom*
           PATH=${HOME}/.local/bin:${PATH}
           syft --output json=${SBOM_NAME}.json --output table=${SBOM_NAME}.txt ${IMAGE} 
-         '''
+        '''
+        archiveArtifacts artifacts: '*sbom*'
       } // end steps
     } // end stage "analyze with syft"
 
@@ -86,13 +87,13 @@ pipeline {
     //
     //
 
-  post {
-    always {
-      // archive the sbom 
-      archiveArtifacts artifacts: '*sbom*'
-      // delete the images locally (optional, if you do this you'll lose a lot of cache speed gains when building)
-      // sh 'docker image rm ${IMAGE} || failure=1'
-    } // end always
-  } //end post
+  //post {
+  //  always {
+  //    // archive the sbom 
+  //    archiveArtifacts artifacts: '*sbom*'
+  //    // delete the images locally (optional, if you do this you'll lose a lot of cache speed gains when building)
+  //    // sh 'docker image rm ${IMAGE} || failure=1'
+  //  } // end always
+  //} //end post
 
 } //end pipeline
