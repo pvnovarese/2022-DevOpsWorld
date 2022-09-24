@@ -39,4 +39,4 @@ The Dockerfile/Jenkinsfile in this directory are just for reference, and for rec
     } // end stage "Archive SBOMs"
 ```   
 
-* (optional) Edit the Dockerfile (in the root of the repository) and change the label from "lab0" to "lab1"
+* (optional) Edit the Dockerfile (in the root of the repository) and change the label from "lab0" to "lab1" (this really isn't that big of a deal)
