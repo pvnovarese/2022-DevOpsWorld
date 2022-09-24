@@ -9,7 +9,6 @@ pipeline {
     // since we're not going to push this anywhere
     //
     IMAGE = "${JOB_BASE_NAME}:${BUILD_NUMBER}"
-    //
   } // end environment
   
   agent any
