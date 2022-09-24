@@ -1,4 +1,4 @@
-## Lab 1
+## Lab 1: Create SBOMs
 
 The goal of this lab is to build on the previous lab and add a quick SBOM creation and archive to it.
 
