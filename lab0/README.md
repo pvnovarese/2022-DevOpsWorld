@@ -11,7 +11,7 @@ The Dockerfile and Jenkinsfile for this lab are in this directory, but should be
 * On the configuration page, scroll down to the "Pipeline" section
 * Change "Definition" to "Pipeline script from SCM"
 * Set "SCM" to "Git"
-* For "Repository URL" input this repo's URL (e.g. https://github.com/<YOUR GIT USER>/2022-devopsworld )
+* For "Repository URL" input this repo's URL (e.g. https://github.com/{YOUR GIT USER}/2022-devopsworld )
 * Click "Save" at the bottom 
 * Click "Build Now"
 
