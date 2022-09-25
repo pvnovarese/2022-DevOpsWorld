@@ -77,7 +77,7 @@ pipeline {
     } // end stage "analyze with syft"
     
     stage('Compare to base image') {
-      steps
+      steps {
         sh '''
           # extract the base image from the Dockerfile generate SBOM table 
           # the awk extracts just the base image out of the FROM directive found by the grep
