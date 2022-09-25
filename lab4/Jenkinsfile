@@ -68,12 +68,12 @@ pipeline {
     
     stage('Evaluate SBOM with grype') {
       steps {
-        // run grype, read sbom from json sbom, output in table format. 
-        // we will pipe output to "tee" so we can save the report AND see it in the logs
+        // run grype, read sbom from json sbom, output in json and table format. 
+        // we will pipe text output to "tee" so we can save the report AND see it in the logs
         // we could instead just use "--file" option for grype if we just want to silenty archive results
         sh '''
           PATH=${HOME}/.local/bin:${PATH}
-          grype --output table sbom:${IMAGE}-sbom.json | tee grype-${IMAGE}-sbom.txt
+          grype --output json=grype-${IMAGE}-sbom.json --output table sbom:${IMAGE}-sbom.json | tee grype-${IMAGE}-sbom.txt
         ''';
       } // end steps
     } // end stage "Evaluate with grype"
