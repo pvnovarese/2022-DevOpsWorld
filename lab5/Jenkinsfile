@@ -38,7 +38,8 @@ pipeline {
     stage('Search SBOMs') {
       steps {
         sh '''
-          find ${JENKINS_HOME}/jobs -print -regex '.*sbom.json' -exec jq -r '(.source.target.userInput) + " " + (.source.target.imageID) +  " " + (.artifacts[] | select (.name|contains("log4j")) | select (.version < "2.17") | "\\(.name) \\(.version)")' {} \\;
+          #find ${JENKINS_HOME}/jobs -print -regex '.*sbom.json' -exec jq -r '(.source.target.userInput) + " " + (.source.target.imageID) +  " " + (.artifacts[] | select (.name|contains("log4j")) | select (.version < "2.17") | "\\(.name) \\(.version)")' {} \\;
+          find ${JENKINS_HOME}/jobs -print | grep sbom.json | xargs -n 1 cat | jq -r '(.source.target.userInput) + " " + (.source.target.imageID) +  " " + (.artifacts[] | select (.name|contains("log4j")) | select (.version < "2.16") | "\\(.name) \\(.version)")'
         '''  
       } // end steps
     } // end stage "build image and tag w build number"
