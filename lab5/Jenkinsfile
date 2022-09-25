@@ -1,0 +1,48 @@
+pipeline {
+  
+  
+  agent any
+  stages {
+    
+    stage('Checkout SCM') {
+      steps {
+        checkout scm
+      } // end steps
+    } // end stage "checkout scm"
+
+    stage('Install and Verify Tools') {
+      steps {
+        sh '''
+          which jq   
+          ### make sure syft is available, and if not, download and install 
+          if [ ! $(which syft) ]; then
+            curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ${HOME}/.local/bin
+          fi
+          ### same for grype
+          if [ ! $(which grype) ]; then
+            curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ${HOME}/.local/bin
+          fi
+          PATH=${HOME}/.local/bin:${PATH}
+          # setting PATH here isn't really necessary since we're just going to exit this sh step anyway but it's
+          # a good reminder that it needs to be done when we actually need syft and grype
+          #
+          # also, we can go ahead and sanity check that the tools were installed correctly:
+          which syft
+          which grype
+          # finally, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
+          rm -f *sbom*
+        '''
+      } // end steps
+    } // end stage "install and verify tools"
+    
+    stage('Search SBOMs') {
+      steps {
+        sh '''
+          find ${JENKINS_HOME}/jobs -print -regex '.*sbom.json' -exec jq -r '(.source.target.userInput) + " " + (.source.target.imageID) +  " " + (.artifacts[] | select (.name|contains("log4j")) | select (.version < "2.17") | "\(.name) \(.version)")' {} \;
+        '''  
+      } // end steps
+    } // end stage "build image and tag w build number"
+    
+
+
+} //end pipeline
