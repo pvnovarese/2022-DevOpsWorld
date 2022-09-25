@@ -73,16 +73,22 @@ pipeline {
         // we could instead just use "--file" option for grype if we just want to silenty archive results
         sh '''
           PATH=${HOME}/.local/bin:${PATH}
+          #
+          ### first option is for just failing on ANY critical vuln.  This is built into grype and is pretty simple.
+          #
           ### we need to set -o pipefail here so the pipe to tee doesn't mask any error from grype
-          #set -o pipefail
-          #grype --fail-on critical --output json=grype-${IMAGE}-sbom.json --output table sbom:${IMAGE}-sbom.json | tee grype-${IMAGE}-sbom.txt
+          # set -o pipefail
+          # grype --fail-on critical --output json=grype-${IMAGE}-sbom.json --output table sbom:${IMAGE}-sbom.json | tee grype-${IMAGE}-sbom.txt
+          #
+          ### second option is to check for vulns that are critical AND have published fixes.  This is a bit more complex
+          #
           grype --output json sbom:${IMAGE}-sbom.json | jq -r '.matches[] | select (.vulnerability.severity == "Critical") | select (.vulnerability.fix.versions | length > 0 ) | .vulnerability.id, .artifact.name, .artifact.version, .vulnerability.severity, .vulnerability.fix.versions' | tee ${IMAGE}-sbom-punchlist.txt
           # now check, if the file exists, we break the pipeline.
           if [ -s ${IMAGE}-sbom-punchlist.txt ] ; then
-            echo "filename exists and is > 0 bytes"
+            echo "ERROR: Critical vulnerabilities with known fixes have been detected."
             exit 1
           else
-            echo "No critical vulnerabilities with fixes detected."
+            echo "No critical vulnerabilities with known fixes detected."
           fi
         '''
       } // end steps
