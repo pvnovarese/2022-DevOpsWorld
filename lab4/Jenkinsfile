@@ -84,7 +84,7 @@ pipeline {
           else
             echo "No critical vulnerabilities with fixes detected."
           fi
-'''
+        '''
       } // end steps
     } // end stage "Evaluate with grype"
     
