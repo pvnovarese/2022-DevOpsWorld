@@ -97,7 +97,9 @@ pipeline {
     stage('Compare SBOMs for drift detection') {
       steps {
         sh '''
-          diff ${IMAGE1}-sbom.txt ${IMAGE2}-sbom.txt
+          diff ${IMAGE1}-sbom.txt ${IMAGE2}-sbom.txt || true
+          ### note: diff will exit with a non-zero code if there are any diffs, using "|| true" masks this so the pipeline won't break
+          ### in a situation where you actually did not want to permit particular drift, you would omit that.
         '''
       } // end steps
     } // end stage "Compare SBOMs"
