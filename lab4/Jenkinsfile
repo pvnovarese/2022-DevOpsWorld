@@ -76,7 +76,7 @@ pipeline {
           ### we need to set -o pipefail here so the pipe to tee doesn't mask any error from grype
           #set -o pipefail
           #grype --fail-on critical --output json=grype-${IMAGE}-sbom.json --output table sbom:${IMAGE}-sbom.json | tee grype-${IMAGE}-sbom.txt
-          grype --output json sbom:${IMAGE}-sbom.json | jq -r '.matches[] | select (.vulnerability.severity == "Critical") | select (.vulnerability.fix.versions | length > 0 ) | "\(.vulnerability.id) \(.artifact.name) \(.artifact.version) \(.vulnerability.severity) \(.vulnerability.fix.versions)"' | tee ${IMAGE}-sbom-punchlist.txt
+          grype --output json sbom:${IMAGE}-sbom.json | jq -r '.matches[] | select (.vulnerability.severity == "Critical") | select (.vulnerability.fix.versions | length > 0 ) | .vulnerability.id, .artifact.name, .artifact.version, .vulnerability.severity, .vulnerability.fix.versions' | tee ${IMAGE}-sbom-punchlist.txt
           # now check, if the file exists, we break the pipeline.
           if [ -s ${IMAGE}-sbom-punchlist.txt ] ; then
             echo "filename exists and is > 0 bytes"
