@@ -83,7 +83,7 @@ pipeline {
         // tr converts newlines to spaces (puts e
         // as written this is just a partial match, we could match for "^curl$" if we want an exact match
         sh '''          
-          awk '{print $1}' ${IMAGE}-sbom.txt | tr "\n" " " | grep -qv curl          
+          awk '{print $1}' ${IMAGE}-sbom.txt | tr "\n" " " | grep -qv sudo          
         '''
       } // end steps
     } // end stage "Package check"
