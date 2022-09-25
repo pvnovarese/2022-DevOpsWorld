@@ -80,14 +80,10 @@ pipeline {
       steps {
         // all we need to do is put all the package names on one line and then grep -v
         // the awk extracts just the package names
+        // tr converts newlines to spaces (puts e
         // as written this is just a partial match, we could match for "^curl$" if we want an exact match
         sh '''          
-          if [ sh -c "awk '{print $1}' ${IMAGE}-sbom.txt | grep -q 'curl'" ]; then
-            echo "Forbidden package detected"
-            exit 1
-          else
-            echo "SBOM is clean"
-          fi
+          awk '{print $1}' ${IMAGE}-sbom.txt | tr "\n" " " | grep -qv curl          
         '''
       } // end steps
     } // end stage "Package check"
