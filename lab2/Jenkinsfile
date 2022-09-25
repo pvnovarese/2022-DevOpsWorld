@@ -41,8 +41,6 @@ pipeline {
           # also, we can go ahead and sanity check that the tools were installed correctly:
           which syft
           which grype
-          # finally, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
-          rm -f *sbom*
         '''
       } // end steps
     } // end stage "install and verify tools"
