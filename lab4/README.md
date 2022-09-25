@@ -37,3 +37,21 @@ If this output is non-zero, we want to break.
 
 We also want this output in the logs so we know what needs to be fixed.
 
+So, now our grype stage would look like this:
+
+```
+    stage('Evaluate SBOM with grype') {
+      steps {
+        sh '''
+          PATH=${HOME}/.local/bin:${PATH}
+          grype --output json sbom:${IMAGE}-sbom.json | jq -r '.matches[] | select (.vulnerability.severity == "Critical") | select (.vulnerability.fix.versions | length > 0 ) | .vulnerability.id, .artifact.name, .artifact.version, .vulnerability.severity, .vulnerability.fix.versions' | tee ${IMAGE}-sbom-punchlist.txt
+          # now check, if the file exists, we break the pipeline.
+          if [ -s ${IMAGE}-sbom-punchlist.txt ] ; then
+            echo "ERROR: Critical vulnerabilities with fixes detected."
+            exit 1
+          else
+            echo "No critical vulnerabilities with fixes detected."
+          fi
+        '''
+      } // end steps
+    } // end stage "Evaluate with grype"
