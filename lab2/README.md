@@ -34,3 +34,4 @@ Method 2: jq filter of the json sbom
     } // end stage "Package check"
 ```
 
+Either of these methods should error out at this stage.  You can verify that this is actually working by changing "curl" to "sudo" or some other package we haven't installed.
