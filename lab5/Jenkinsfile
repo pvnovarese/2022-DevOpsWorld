@@ -43,6 +43,6 @@ pipeline {
       } // end steps
     } // end stage "build image and tag w build number"
     
-
+  } // end stages
 
 } //end pipeline
