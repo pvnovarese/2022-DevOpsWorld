@@ -85,6 +85,8 @@ pipeline {
           # the awk extracts just the base image out of the FROM directive found by the grep
           syft packages --quiet --output table=${IMAGE}-base-sbom.txt $(grep "^FROM" Dockerfile | awk '{print $2}')
           # just print the diffs
+          # this diff isn't functional yet because the line spacing in syft output is variable
+          # probably should do this with some jq filters instead
           diff ${IMAGE}-base-sbom.txt ${IMAGE}-sbom.txt
         '''
       } // end steps
