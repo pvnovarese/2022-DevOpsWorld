@@ -41,6 +41,8 @@ pipeline {
           # also, we can go ahead and sanity check that the tools were installed correctly:
           which syft
           which grype
+          # finally, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
+          rm -f *sbom* 
         '''
       } // end steps
     } // end stage "install and verify tools"
@@ -66,8 +68,6 @@ pipeline {
         // note: setting PATH here like this will work regardless of whether syft/grype 
         // were installed before we ran this pipeline or during the pipeline execution
         sh '''
-          # first, let's make sure there's no old sboms laying around (just so our build artifacts are clean)
-          rm -f *sbom*
           # set the PATH just to be sure
           PATH=${HOME}/.local/bin:${PATH}
           # run syft and output both json and text files.
