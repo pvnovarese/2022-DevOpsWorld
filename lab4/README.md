@@ -11,6 +11,8 @@ Goal: get a vulnerability report and optionally enforce vulnerability checks.
         // we could instead just use "--file" option for grype if we just want to silenty archive results
         sh '''
           PATH=${HOME}/.local/bin:${PATH}
+          ### we need to set -o pipefail here so the pipe to tee doesn't mask any error from grype
+          set -o pipefail
           grype --output json=grype-${IMAGE}-sbom.json --output table sbom:${IMAGE}-sbom.json | tee grype-${IMAGE}-sbom.txt
         ''';
       } // end steps
