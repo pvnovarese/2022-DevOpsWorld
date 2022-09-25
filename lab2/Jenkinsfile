@@ -83,7 +83,7 @@ pipeline {
         // tr converts newlines to spaces (puts e
         // note: as written this is just a partial match
         sh '''          
-          jq -r '.artifacts[].name' | tr "\n" " " 
+          jq -r '.artifacts[].name' ${IMAGE}-sbom.json | tr "\n" " " 
         '''
       } // end steps
     } // end stage "Package check"
