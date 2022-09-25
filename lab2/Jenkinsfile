@@ -99,7 +99,7 @@ pipeline {
         archiveArtifacts artifacts: '*sbom*'
         // and, just to be sure, let's clean up after ourselves, 
         // remove any sboms we've created from the workspace
-        sh 'rm -f *sbom*'
+        // sh 'rm -f *sbom*'
       } // end steps
     } // end stage "Archive SBOMs"
 
