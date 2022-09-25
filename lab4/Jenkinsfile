@@ -74,7 +74,7 @@ pipeline {
         sh '''
           PATH=${HOME}/.local/bin:${PATH}
           grype --fail-on critical --output json=grype-${IMAGE}-sbom.json --output table sbom:${IMAGE}-sbom.json | tee grype-${IMAGE}-sbom.txt
-        ''';
+        '''
       } // end steps
     } // end stage "Evaluate with grype"
     
