@@ -51,7 +51,7 @@ pipeline {
     stage('Build image 1 and tag with build number') {
       steps {
         sh '''
-          docker build --network=host --file=lab3/Dockerfile1 -t ${IMAGE1} .
+          docker build --pull --no-cache --network=host --file=lab3/Dockerfile1 -t ${IMAGE1} .
         '''  
       } // end steps
     } // end stage "build image and tag w build number"
@@ -74,7 +74,7 @@ pipeline {
     stage('Build image 2 and tag with build number') {
       steps {
         sh '''
-          docker build --network=host --file=lab3/Dockerfile2 -t ${IMAGE2} .
+          docker build --pull --no-cache --network=host --file=lab3/Dockerfile2 -t ${IMAGE2} .
         '''  
       } // end steps
     } // end stage "build image and tag w build number"
