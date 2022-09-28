@@ -82,7 +82,7 @@ pipeline {
         // tr converts newlines to spaces (puts e
         // note: as written this is just a partial match
         sh '''          
-          jq -r '.artifacts[].name' ${IMAGE}-sbom.json | tr "\n" " " | grep -qv sudo
+          jq -r '.artifacts[].name' ${IMAGE}-syft-sbom.json | tr "\n" " " | grep -qv sudo
         '''
       } // end steps
     } // end stage "Package check"
