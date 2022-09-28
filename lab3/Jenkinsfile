@@ -89,8 +89,7 @@ pipeline {
           # set the PATH just to be sure
           PATH=${HOME}/.local/bin:${PATH}
           # run syft and output both json and text files.
-          syft --output json=${IMAGE2}-sbom.json --output table=${IMAGE2}-sbom.txt ${IMAGE2} 
-        '''
+          syft --output json=${IMAGE2}-sbom.json --output table=${IMAGE2}-sbom.txt --output spdx-json=${IMAGE2}-spdx-sbom.json --output cyclonedx-json=${IMAGE2}-cyclonedx-sbom.json ${IMAGE2}         '''
       } // end steps
     } // end stage "analyze with syft"
     
