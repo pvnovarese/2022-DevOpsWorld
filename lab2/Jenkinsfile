@@ -87,19 +87,17 @@ pipeline {
         '''
       } // end steps
     } // end stage "Package check"
-
-
-    stage('Archive SBOMs') {
-      steps {
-        // archive anything with "sbom" in the name
-        archiveArtifacts artifacts: '*sbom*'
-        // and, just to be sure, let's clean up after ourselves, 
-        // remove any sboms we've created from the workspace
-        sh 'rm -f *sbom*'
-      } // end steps
-    } // end stage "Archive SBOMs"
-
     
   } // end stages
+  
+  post {
+    always {
+      // archive the sbom
+      archiveArtifacts artifacts: '*sbom*'
+      // and, just to be sure, let's clean up after ourselves, 
+      // remove any sboms we've created from the workspace
+      sh 'rm -f *sbom*'
+    } // end always
+  } //end post
 
 } //end pipeline
