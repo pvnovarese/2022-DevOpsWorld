@@ -24,7 +24,7 @@ RUN set -ex && \
     adduser -d /xmrig mining && \
     pip3 install --index-url https://pypi.org/simple --no-cache-dir pytest urllib3 botocore six numpy && \
     gem install bundler lockbox:0.6.8 ftpd && \
-    npm install -g --cache /tmp/empty-cache debug chalk commander xmldom@0.4.0 && \
+    npm install -g --cache /tmp/empty-cache debug chalk commander xmldom && \
     npm cache clean --force && \
     microdnf -y clean all && \
     rm -rf /var/cache/yum /tmp 
