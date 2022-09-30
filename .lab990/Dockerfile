@@ -8,7 +8,7 @@ RUN set -ex && \
     pip3 install anchorecli && \
     pip3 install --index-url https://pypi.org/simple --no-cache-dir pytest urllib3 botocore six && \
     curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin  && \
-    #curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin && \
+    curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin && \
 
     gem install bundler lockbox:0.6.8 ftpd:0.2.1
     
