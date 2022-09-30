@@ -3,7 +3,7 @@ FROM alpine:latest
 LABEL name="2022-devopsworld-lab0"
 
 RUN set -ex && \
-    apk add --no-cache curl jq 
+    apk add --no-cache curl jq sudo
     #ruby python3 && \
     #python3 -m ensurepip && \
     #pip3 install anchorecli && \
