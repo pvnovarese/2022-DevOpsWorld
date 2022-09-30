@@ -17,51 +17,16 @@ Optional:
 * a decent terminal/command-line ssh client (e.g. putty for windows, Mac has this built in)
 
 
-## Lab Alpha: getting to know SBOM
-* syft <something>
-* syft -o json something
-* syft > grype 
-* cf. grype alone for timings
-
-## Lab Beta: drift detection
-
-```
-➜  ~ syft -o json --file=syft-56-sbom.json anchore/syft:v0.56.0
- ✔ Loaded image
- ✔ Parsed image
- ✔ Cataloged packages      [216 packages]
- 
- ➜  ~ syft -o json --file=syft-40-sbom.json anchore/syft:v0.40.0
- ✔ Loaded image
- ✔ Parsed image
- ✔ Cataloged packages      [241 packages]
-```
-
-## Lab Gamma: Vulnerability Matching
-
-``` 
-➜  ~ grype sbom:syft-56-sbom.json
- ✔ Scanned image           [2 vulnerabilities]
-
-NAME                        INSTALLED  FIXED-IN  TYPE       VULNERABILITY   SEVERITY
-google.golang.org/protobuf  v1.28.1              go-module  CVE-2015-5237   High
-google.golang.org/protobuf  v1.28.1              go-module  CVE-2021-22570  Medium
-```
+## Labs
+* [lab 1](lab1/README.md) - Create SBOMs
+* [lab 2](lab2/README.md) - Check for Forbidden Packages
+* [lab 3](lab3/README.md) - Check for Drift
+* [lab 4](lab4/README.md) - Vulnerability Scanning
+* [lab 5](lab5/README.md) - SBOM Search (still under construction)
 
 
-## Lab 0: Test Jenkins Functionality
 
-* Fork this repo
-* Start with minimal Jenkinsfile
-* verify we can build an image
 
-## Lab 1: Generate SBOM 
-
-* add syft to the jenkinsfile
-* generate sbom after image build
-* archive the SBOM
-
-## Lab 2: Make Decisions from the SBOM
 
 
 ## Lab 999: Jenkins Setup
@@ -121,18 +86,3 @@ A few additional items we might use in some of the labs:
 	- click “global” and “add credentials”
 	- Use your Docker Hub username and password (get an access token from Docker Hub if you are using multifactor authentication), and set the ID of the credential to “docker-hub”.
 
-## Lab X: package blocks
-
-* install sudo in Dockerfile (apk add sudo)
-* test for sudo in package list and break pipeline if detected
-* hard mode: check for license on particular package type
-
-eg `syft -o json <image> | jq '.artifacts[] | select (.type == "gem") | .name, .type, .licenses'`
-
-## Lab Y: vuln check
-
-* introduce grype
-* break pipelines if critical vulns are found
-* bonus: check the difference between "grype <image>" and "grype <sbom>"
-
-## Lab Z: zero day response
