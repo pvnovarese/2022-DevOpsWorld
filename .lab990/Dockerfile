@@ -3,7 +3,7 @@ FROM alpine:latest
 LABEL name="2022-devopsworld-lab0"
 
 RUN set -ex && \
-    apk add --no-cache curl jq sudo
+    apk add --no-cache curl jq sudo && \
     #ruby python3 && \
     #gem install bundler lockbox:0.6.8 ftpd:0.2. && \
     #python3 -m ensurepip && \
