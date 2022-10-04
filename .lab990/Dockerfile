@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL name="2022-devopsworld-lab0"
 
-COPY jars/log4j-core-2.17.1.jar  /
+COPY jars/log4j-core-2.19.0.jar  /
 
 #RUN set -ex && \
     #apk add --no-cache curl jq sudo ruby python3 && \
