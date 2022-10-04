@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL name="2022-devopsworld-lab0"
 
-COPY jars/h2-2.0.204.jar /
+COPY jars/h2-2.0.206.jar  /
 
 #RUN set -ex && \
     #apk add --no-cache curl jq sudo ruby python3 && \
